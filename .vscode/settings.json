@@ -1,0 +1,30 @@
+{
+  "latex-workshop.latex.clean.subfolder.enabled": true,
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.languageContextByClass": {
+    "latex": {
+      "body": ["en"],
+      "comments": ["en"]
+    }
+  },
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ],
+  "latex-workshop.latex.tools": [{
+    "name": "latexmk",
+    "command": "latexmk",
+    "args": [
+      "-synctex=1",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "-pdf",
+      "--shell-escape",
+      "%DOC%"
+    ]
+  }]
+}
