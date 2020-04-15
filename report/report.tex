@@ -16,10 +16,20 @@
 \maketitle
 
 \section{Introduction}
+The aim of this report is to describe the current problem in computer vision for solving image recognition, which is very important in the area of robotic vision, to describe the current state-of-the-art network architectures and finally to descirbe my approach for solving this problem. This project used the CIFAR-10 dataset which consists of 60000 32x32 colour images, grouped into 10 classes. Although the dataset has low quality images, and for a real-world robot it's visual acuity would be much greater (for example iCub which use 2x Dragonfly2 camera, each with a resolution of 648x488 pixels), solving image recognition on a simple dataset provides a proof of concept for a system that could be upscaled in order to perform image recognition on higher resolution images.
+
+Firstly, the network architecture was chosen before evaluation of the network with a selection of hyperparameters. In order to find a good architecture, I researched the current state of the art (see Section \ref{sec:soa}) in order to determine the baseline performance. Using a very deep CNN architecture, one can achieve an error rate of only 1.0\%\cite{huang2018gpipe}, however this architecture has over 500-million parameters which is far too large for the available computer power for this project.
+
+As such, I looked for simplier network architectures that still achieved good results on the CIFAR dataset. After some research in modern techniques to improve training networks, I decided to include layers using Batch Normalisation and Dropout layers which have been shown to improve the accuracy of networks\cite{dropout, batch-norm}.
+
+Lastly, in terms of hyperparameter choice, there were some main parameters that had to be refined for the network topology. The main hyperparameters that had to be defined were the learning rate of the optimiser, and weight decay for batch norm layers. Additionally, the network topology is a based on blocks of (CONV + ReLU + Batch Norm)\footnote{In this case, ``+'' refers to a combination of ideas, rather than the plus operator in mathematics.}. More details of the network architecture can be found in Section \ref{sec:imple}.
 
 \section{State of the art}
+\label{sec:soa}
+
 
 \section{Implementation}
+\label{sec:imple}
 
 \section{Conclusion}
 
