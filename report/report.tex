@@ -6,8 +6,6 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=red} %
 
-\graphicspath{{Figures/}}
-
 \title{Cognitive Robotics Lab Report}
 \author{Sean Parker\\
 34212-Lab-S-Report}
@@ -22,14 +20,46 @@ Firstly, the network architecture was chosen before evaluation of the network wi
 
 As such, I looked for simplier network architectures that still achieved good results on the CIFAR dataset. After some research in modern techniques to improve training networks, I decided to include layers using Batch Normalisation and Dropout layers which have been shown to improve the accuracy of networks\cite{dropout, batch-norm}.
 
-Lastly, in terms of hyperparameter choice, there were some main parameters that had to be refined for the network topology. The main hyperparameters that had to be defined were the learning rate of the optimiser, and weight decay for batch norm layers. Additionally, the network topology is a based on blocks of (CONV + ReLU + Batch Norm)\footnote{In this case, ``+'' refers to a combination of ideas, rather than the plus operator in mathematics.}. More details of the network architecture can be found in Section \ref{sec:imple}.
+Lastly, in terms of hyperparameter choice, there were some main parameters that had to be refined for the network topology. The main hyperparameters that had to be defined were the learning rate of the optimiser, and weight decay for L2 regularization. Additionally, the network topology is a based on blocks of (CONV + ReLU + Batch Norm)\footnote{In this case, ``+'' refers to a combination of ideas, rather than the plus operator in mathematics.}. More details of the network architecture can be found in Section \ref{sec:imple}.
 
 \section{State of the art}
 \label{sec:soa}
 
 
+
 \section{Implementation}
 \label{sec:imple}
+Figure \ref{fig:network-arch} shows the network architecture diagramatically, it is also described below for completeness. After testing different architectures, I found a good middle ground between network complexity, training time, and performace was the following.
+
+Firstly, we expect the input to be a 32x32 input image with three channels (RGB). The network consits of three blocks, each using the same architecture, but with different hyperparameters. The structure of each block is as follows. Convolution of filters with stride 1, L2 regularization (weight decay of $5\times 10^{-4}$), ReLU activation, and Batch Normalisation. Next, aonther Convolution layer, ReLU activation and Batch Normalisation. Finally, the block finishes with Max pooling (size of 2x2), ReLU activation and a dropout layer.
+
+We repeat this structure two more times, before finally flattening the output layer with a single dropout layer which is connected to a fully connected layer with 10 units. These units predict the category in which the image should be classified.
+
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.75\textwidth]{network.png}
+%   \caption{network-arch
+%     \label{fig:network-arch}
+%   }
+% \end{figure}
+
+Additionally, I also used a learning rate schedule in order to start with a high learning rate at the start of training, and then at specific points during training, the learning rate is reduced in order to perform fine-tuning. The schedule used was as follows:
+
+\begin{itemize}
+  \item Learning rate = 0.002, epoch $\geq 0$
+  \item Learning rate = 0.001, epoch $\ge 25$
+  \item Learning rate = 0.0005, epoch $\ge 50$
+  \item Learning rate = 0.0003, epoch $\ge 100$
+\end{itemize}
+
+Finally, the training was performed for 120 epochs, I found this was a good balance between training time and performance. Using the learning rate schedule above, around epoch 60, the accuracy reached 83\% at which point the network needed fine tuning in order to reach the final accuracy of 85-87\%. Using Google Colab and a NVIDIA P100, it took $\approx 20$s per epoch, and therefore around 40 minutes to train the model.
+
+
+
+\section{Experiments}
+This section will describe the process of finding the optimal hyperparameters for the network in order to get the best performance. My approach to find these was in large part trail and error, documenting each run with the loss and accuracy, both during the training and testing phases. The starting point for the hyperparameter search was that of the papers that introduced some of the techniques used in the report \cite{simonyan2014deep}.
+
+As can be seen in Figure (TODO), by keeping all else the same, just changing the learning rate has a large effect on the overall accuracy of the network. It is important to note that since we use random initalisation of the network, some tests may start closer to a local minima than others. However, the overall effect can still be observed by looking at the results. Too low of a learning rate means the network will struggle to learn the classification, and too high learning rate leads to quickly overfitting the training data and getting stuck in a poor local minimum. A promising area of hyperparameter exploration is that of Bayesian hyperparameter optimisation which has been shown to lead to better performance over hand tuning of the learning rates \cite{snoek2012practical, bayesian-optim}.
 
 \section{Conclusion}
 
