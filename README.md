@@ -1,1 +1,1 @@
-__Cognative Robotics Lab__
+__Image Classification on CIFAR-10 Dataset__
