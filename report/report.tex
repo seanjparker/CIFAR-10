@@ -65,7 +65,7 @@ The choice of using ELU activation over ReLU activation was that the ELU activat
 \end{figure}
 \newpage
 
-Additionally, I also used a learning rate schedule in order to start with a high learning rate at the start of training, and then at specific points during training, the learning rate is reduced in order to perform fine-tuning. The schedule that I found produced the best results was the following:
+Additionally, I also used a learning rate schedule in order to start with a high learning rate at the start of training, and then at specific points during training, the learning rate is reduced in order to perform fine-tuning. The optimiser used for the network was RMSprop with batch sizes of 128. The schedule that I found produced the best results was the following:
 
 \begin{itemize}
   \item Learning rate = 0.001, epoch $\geq 0$
