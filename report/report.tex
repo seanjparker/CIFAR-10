@@ -68,10 +68,10 @@ The choice of using ELU activation over ReLU activation was that the ELU activat
 Additionally, I also used a learning rate schedule in order to start with a high learning rate at the start of training, and then at specific points during training, the learning rate is reduced in order to perform fine-tuning. The optimiser used for the network was RMSprop with batch sizes of 128. The schedule that I found produced the best results was the following:
 
 \begin{itemize}
-  \item Learning rate = 0.001, epoch $\geq 0$
-  \item Learning rate = 0.0005, epoch $\ge 25$
-  \item Learning rate = 0.00025, epoch $\ge 50$
-  \item Learning rate = 0.000075, epoch $\ge 80$
+  \item Learning rate = 0.001 when epoch $\geq 0$
+  \item Learning rate = 0.0005 when epoch $\ge 25$
+  \item Learning rate = 0.00025 when epoch $\ge 50$
+  \item Learning rate = 0.000075 when epoch $\ge 80$
 \end{itemize}
 
 Finally, the training was performed for 100 epochs, I found this was a good balance between training time and performance. Using the learning rate schedule above, around epoch 60, the accuracy reached 83\% at which point the network needed fine tuning in order to reach the final accuracy of 87\%. Using Google Colab and a NVIDIA P100, it took $\approx 20$s per epoch, in total around 30 minutes to train the model completely.
