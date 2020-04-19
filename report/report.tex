@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{hyperref}
 \usepackage{geometry}
+\usepackage{gensymb}
 \geometry{a4paper, top=2cm}
 
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=red} %
@@ -65,7 +66,7 @@ The choice of using ELU activation over ReLU activation was that the ELU activat
 \end{figure}
 \newpage
 
-Additionally, I also used a learning rate schedule in order to start with a high learning rate at the start of training, and then at specific points during training, the learning rate is reduced in order to perform fine-tuning. The optimiser used for the network was RMSprop with batch sizes of 128. The schedule that I found produced the best results was the following:
+Additionally, I also used a learning rate schedule in order to start with a high learning rate at the start of training, and then at specific points during training, the learning rate is reduced in order to perform fine-tuning. The optimiser used for the network was RMSprop with batch sizes of 128. The training data was augmented randonly using horizontal flips and rotations up to 15\degree. The schedule that I found produced the best results was the following:
 
 \begin{itemize}
   \item Learning rate = 0.001 when epoch $\geq 0$
@@ -90,7 +91,7 @@ A promising area of hyperparameter exploration is that of Bayesian hyperparamete
   \begin{minipage}{0.33\textwidth}
     \centering
     \includegraphics[width=1\textwidth]{results/acc-best.png} % first figure
-    \caption{Test Accuracy -- Schedule 1}
+    \caption{Test Accuracy -- Schedule 1 (Best Model)}
     \label{sch1}
   \end{minipage}\hfill
   \begin{minipage}{0.33\textwidth}
